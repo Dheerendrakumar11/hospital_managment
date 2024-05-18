@@ -1,19 +1,10 @@
+import { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Modal, Card, Button, Form } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
 import { AiFillEdit } from "react-icons/ai";
-import { MdDeleteForever } from "react-icons/md";
-import Card from "react-bootstrap/Card";
-import { FaUserNurse } from "react-icons/fa6";
-// import {Container,Row,Col} from 'react-bootstrap'
-
-import { MdGroups } from "react-icons/md";
-import { FaUserDoctor } from "react-icons/fa6";
-
+import { MdDeleteForever, MdGroups} from "react-icons/md";
+import { FaUserNurse, FaUserDoctor } from "react-icons/fa6";
 import { LuView } from "react-icons/lu";
 
 function EmployeeList() {
@@ -44,7 +35,7 @@ function EmployeeList() {
   //////////////////role Assign get Api////////////////////////
 
   const [role, setRole] = useState([]);
-  
+
   const fatchRoleData = async () => {
     try {
       const response = await axios.get("http://localhost:8010/api/roles");
@@ -59,16 +50,9 @@ function EmployeeList() {
   }, []);
   /////////////////////////Post Assign//////////////////////////////
 
-
-    
-    
-
-
-
-
-  const handleUpdateRole = async (e,row) => {
+  const handleUpdateRole = async (e, row) => {
     // e.preventDefault();
-    console.log(row,e.target.value)
+    console.log(row, e.target.value);
     try {
       if (e.target.value) {
         // Construct the roleChange object with role_id and emp_id
@@ -76,12 +60,12 @@ function EmployeeList() {
           role_id: e.target.value, // Assuming e.target.value contains the role_id
           emp_id: row, // Assuming row.emp_id contains the employee's ID
         };
-  
+
         const response = await axios.post(
           "http://localhost:8010/assign/post",
           roleChangeData // Pass roleChangeData instead of roleChange directly
         );
-        fetchRoleAss()
+        fetchRoleAss();
         console.log(response.data);
         // fatchRoleData();
       }
@@ -89,9 +73,6 @@ function EmployeeList() {
       console.log(error, "Error not posting data");
     }
   };
-  
-
-  
 
   // const getByIdata = async(empId)=>{
   //   const responce = await axios.get(`http://localhost/assign/get/${empId}`);
@@ -100,7 +81,6 @@ function EmployeeList() {
   //   setRoleId(responce.data)
 
   // }
-
 
   ///////////////////////////////////table////////////////////
 
@@ -154,35 +134,31 @@ function EmployeeList() {
       cell: (row) => {
         return (
           <>
-          <Form.Select
-            aria-label="Default select example"
-            id="roleName"
-            name="role_name"
-            // defaultValue={roleId?.emp_id}
-            value={role.emp_id}
-            onChange={(e)=>handleUpdateRole(e,row.emp_id)}
-            // onClick={()=>{getByIdata(row.emp_id,)}}
-          >
-          
-            <option>Select</option>
-            {role.map((roleName, index) => (
-          <option  name="role_name" value={roleName.role_id} key={index}  >
-                {roleName.role_name}
-              </option>
-            ))}
-          </Form.Select>
-        </>
+            <Form.Select
+              aria-label="Default select example"
+              id="roleName"
+              name="role_name"
+              // defaultValue={roleId?.emp_id}
+              value={role.emp_id}
+              onChange={(e) => handleUpdateRole(e, row.emp_id)}
+              // onClick={()=>{getByIdata(row.emp_id,)}}
+            >
+              <option>Select</option>
+              {role.map((roleName, index) => (
+                <option name="role_name" value={roleName.role_id} key={index}>
+                  {roleName.role_name}
+                </option>
+              ))}
+            </Form.Select>
+          </>
         );
       },
     },
-    
 
-    
     {
       name: "Room No",
       selector: (row) => row.room_no,
       sortable: true,
-     
     },
     {
       name: "Dept Name",
@@ -292,7 +268,7 @@ function EmployeeList() {
     },
   };
   /////////////////////get roll//
- 
+
   ///////////////////////get/////////////////////////////////
   const getData = () => {
     axios
@@ -449,7 +425,6 @@ function EmployeeList() {
   }, []);
   //////////////////////////////roleAssign//////////////////////////////////////
   const [roleAssign, setRoleAssign] = useState([]);
-
 
   const fetchRoleAss = async () => {
     try {
