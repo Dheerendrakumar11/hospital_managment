@@ -1,0 +1,11 @@
+.Box{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.login{
+    height: 100px;
+    width: 100px;
+    background-color: rgb(138, 135, 131);
+}
